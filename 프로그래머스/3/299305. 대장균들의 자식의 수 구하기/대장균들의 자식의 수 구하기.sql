@@ -1,0 +1,17 @@
+SELECT
+    ED1.ID,
+    IFNULL(ED2.COUNT, 0) AS CHILD_COUNT
+FROM
+    ECOLI_DATA AS ED1
+    LEFT JOIN (
+        SELECT
+            PARENT_ID,
+            COUNT(*) AS COUNT
+        FROM
+            ECOLI_DATA
+        GROUP BY
+            PARENT_ID
+    ) AS ED2
+    ON ED1.ID = ED2.PARENT_ID
+ORDER BY
+    ED1.ID ASC
