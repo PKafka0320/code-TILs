@@ -45,24 +45,13 @@ public class Main {
 		
 		int sum = 0;
 		while (currentTime > 0 ) {
-//			System.out.println("currentTime: " + currentTime);
 			while (!pq.isEmpty() && pq.peek().time >= currentTime) {
-				Info info = pq.poll();
-				int time = info.time;
-				int value = info.value;
-//				System.out.printf("addList | (%d,%d)\n", time, value);
-				tmppq.add(info);
+				tmppq.add(pq.poll());
 			}
 			
 			currentTime--;
 			if (tmppq.isEmpty()) continue;
-			Info peek = tmppq.poll();
-			int time = peek.time;
-			int value = peek.value;
-//			System.out.printf("peek | (%d,%d)\n", time, value);
-			sum += value;
-			
-//			System.out.println();
+			sum += tmppq.poll().value;
 		}
 		
 		System.out.println(sum);
