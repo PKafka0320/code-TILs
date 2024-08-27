@@ -32,13 +32,14 @@ public class Solution {
             visited = new boolean[N][N];
             result = 0;
             
+            // 윗 꼭짓점이 될 수 있는 부분부터 탐색
             for (int r = 0; r < N - 2; r++) {
                 for (int c = 1; c < N - 1; c++) {
                     selected.clear();
                     startR = r;
                     startC = c;
                     
-                    find(r, c, 0, 0);
+                    find(r, c, 0);
                 }
             }
             
@@ -47,36 +48,48 @@ public class Solution {
         System.out.println(answer);
     }
     
-    public static void find(int r, int c, int dir, int len) {
+    public static void find(int r, int c, int dir) {
+        // 해당 위치의 값 추가
         selected.add(grid[r][c]);
         visited[r][c] = true;
         
+        // 한바퀴 돌았다면 종료
         if (dir >= 4) {
+            // 추가했던 값 제거
             selected.remove(selected.size() - 1);
             visited[r][c] = false;
             return;
         }
         
+        // 다음 위치
         int nr = r + dr[dir];
         int nc = c + dc[dir];
         
+        // 다음 위치가 시작 위치라면 결과 갱신 및 종료
         if (nr == startR && nc == startC) {
+            // 갱신
             result = Math.max(result, selected.size());
+            // 추가했던 값 제거
             selected.remove(selected.size() - 1);
             visited[r][c] = false;
             return;
         }
         
+        // 다음 위치의 값을 추가할 수 있다면 이동
         if (!outOfGrid(nr, nc) && !visited[nr][nc] && !selected.contains(grid[nr][nc])) {
-            find(nr, nc, dir + 1, 0);
-            find(nr, nc, dir, len + 1);
+            find(nr, nc, dir + 1);
+            
+            find(nr, nc, dir);
         }
         
+        // 모든 탐색을 종료했다면 추가했던 값 제거
         selected.remove(selected.size() - 1);
         visited[r][c] = false;
     }
     
+    // 범위 확인용
     public static boolean outOfGrid(int r, int c) {
         return (r < 0 || r >= N || c < 0 || c >= N);
     }
+    
 }
