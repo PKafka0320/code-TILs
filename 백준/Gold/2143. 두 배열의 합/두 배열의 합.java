@@ -56,7 +56,7 @@ public class Main {
 			i += aTerm;
 		}
 		System.out.println(cnt);
-	}
+    }
 
 	static int upper_bound(long[] arr, long t) {
 		int left = 0, right = arr.length;
@@ -69,7 +69,7 @@ public class Main {
 				right = mid;
 			}
 		}
-		return right;
+		return left;
 	}
 
 	static int lower_bound(long[] arr, long t) {
@@ -83,6 +83,6 @@ public class Main {
 				left = mid + 1;
 			}
 		}
-		return right;
+		return left;
 	}
 }
