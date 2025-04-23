@@ -23,15 +23,8 @@ public class Main {
         }
 
         int[][] sum = new int[N+1][M+1];
-        sum[1][1] = grid[1][1];
-        for (int i = 2; i <= M; i++) {
-            sum[1][i] = sum[1][i-1] + grid[1][i];
-        }
-        for (int i = 2; i <= N; i++) {
-            sum[i][1] = sum[i-1][1] + grid[i][1];
-        }
-        for (int i = 2; i <= N; i++) {
-            for (int j = 2; j <= M; j++) {
+        for (int i = 1; i <= N; i++) {
+            for (int j = 1; j <= M; j++) {
                 sum[i][j] = grid[i][j] + sum[i][j-1] + sum[i-1][j] - sum[i-1][j-1];
             }
         }
