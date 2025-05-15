@@ -1,45 +1,60 @@
-import java.util.*;
-class Main {
-    public static int solution(int[]nums,int[][]dy, int n){
-        if(n==1) return 1;
-        int answer=0;
-        for(int i=1;i<n; i++){
-            for(int j=1+i;j<=n; j++){
-                dy[i][j]=2;
-                int pre = nums[i]- (nums[j]-nums[i]);
-                //int k=0;
-                //for(k=i-1;k>=1;k--){
-                    //if(nums[k]==pre) break;
-                //}
-                //성능개선 O(n) -> O(log n)
-                int lt=1, rt=i-1;
-                int mid=0;
-                while (lt<rt){
-                    mid = (lt+rt) / 2;
-                    if(nums[mid]<pre) lt=mid+1;
-                    else if(nums[mid]==pre && nums[rt]==pre) lt=mid+1;
-                    else rt = mid;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 
+public class Main {
+
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int N = Integer.parseInt(br.readLine());
+        if (N == 1) {
+            System.out.println(1);
+            return;
+        }
+
+        int[] nums = new int[N + 1];
+        int[][] dp = new int[N + 1][N + 1];
+
+        for (int i = 1; i <= N; i++) {
+            nums[i] = Integer.parseInt(br.readLine());
+        }
+        Arrays.sort(nums);
+
+        int answer = 0;
+        for (int i = 1; i < N; i++) {
+            for (int j = 1 + i; j <= N; j++) {
+                dp[i][j] = 2;
+                int pre = nums[i] - (nums[j] - nums[i]);
+
+                int lt = 1, rt = i - 1;
+                int mid = 0;
+                while (lt < rt) {
+                    mid = (lt + rt) / 2;
+                    if (nums[mid] < pre) lt = mid + 1;
+                    else if (nums[mid] == pre && nums[rt] == pre) lt = mid + 1;
+                    else rt = mid;
                 }
-                //찾았으면
-                if(nums[rt] == pre) dy[i][j] = Math.max(dy[i][j], dy[rt][i]+1);
-                answer = Math.max(answer,dy[i][j]);
+
+                if (nums[rt] == pre) dp[i][j] = Math.max(dp[i][j], dp[rt][i] + 1);
+                answer = Math.max(answer, dp[i][j]);
             }
         }
-        //for(int[] t : dy)System.out.println(Arrays.toString(t));
-        return answer;
 
+        System.out.println(answer);
     }
-    public static void main(String[] args){
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int[] nums = new int[n+1];
-        int[][] dy = new int[n+1][n+1];
-        for(int i=1; i<=n; i++)nums[i]= sc.nextInt();
-        Arrays.sort(nums);
-        System.out.println(solution(nums,dy,n));
 
+    private static boolean binarySearch(int[] arr, int target) {
+        int left = 0, right = arr.length - 1;
 
+        while (left <= right) {
+            int mid = (left + right) / 2;
 
+            if (arr[mid] == target) return true;
+            else if (arr[mid] < target) left = mid + 1;
+            else right = mid - 1;
+        }
+
+        return false;
     }
 }
