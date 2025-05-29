@@ -1,6 +1,5 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -29,12 +28,8 @@ public class Main {
             values[idx] += value;
         }
 
-        for (int i = 1; i < N; i++) {
-            for (int j = i + 1; j <= N; j++) {
-                if (firms[j] == i) {
-                    values[j] += values[i];
-                }
-            }
+        for (int i = 2; i <= N; i++) {
+            values[i] += values[firms[i]];
         }
 
         StringBuilder answer = new StringBuilder();
