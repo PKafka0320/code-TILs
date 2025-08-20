@@ -9,7 +9,7 @@ public class Main {
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer st;
 	static List<Integer> inputList;
-	static long[][] dp;
+	static long[][] dp; // dp[i][j] = i개의 완전한 알약, j개의 반절짜리 약이 남았을 때 조합의 수
 
 	public static void main(String[] args) throws IOException {
 		init();
