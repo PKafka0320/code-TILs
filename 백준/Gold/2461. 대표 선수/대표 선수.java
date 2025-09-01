@@ -16,13 +16,15 @@ public class Main {
 
 		@Override
 		public int compareTo(Student o) {
-			return this.skill - o.skill;
+			return this.skill - o.skill; // 오름차순
 		}
 	}
 
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer st;
 	static PriorityQueue<Student> pq;
+	static PriorityQueue<Student> minPQ;
+	static PriorityQueue<Student> maxPQ;
 	static int N, M, presentCount;
 	static int[] classSkill;
 	static boolean[] isNotPresent;
@@ -40,20 +42,25 @@ public class Main {
 			int classNumber = current.classNumber;
 			int skill = current.skill;
 
-			if (isNotPresent[current.classNumber]) {
-				isNotPresent[current.classNumber] = false;
+			if (isNotPresent[classNumber]) {
+				isNotPresent[classNumber] = false;
 				presentCount++;
 			}
+
 			classSkill[classNumber] = skill;
+			minPQ.add(new Student(classNumber, skill));
+			maxPQ.add(new Student(classNumber, skill));
 
 			if (presentCount == N) {
-				int min = 1_000_000_000;
-				int max = 0;
-				for (int i = 1; i <= N; i++) {
-					int value = classSkill[i];
-					min = Math.min(min, value);
-					max = Math.max(max, value);
+				while (!minPQ.isEmpty() && classSkill[minPQ.peek().classNumber] != minPQ.peek().skill) {
+					minPQ.poll();
 				}
+				while (!maxPQ.isEmpty() && classSkill[maxPQ.peek().classNumber] != maxPQ.peek().skill) {
+					maxPQ.poll();
+				}
+
+				int min = minPQ.peek().skill;
+				int max = maxPQ.peek().skill;
 				answer = Math.min(answer, max - min);
 			}
 		}
@@ -69,12 +76,14 @@ public class Main {
 		isNotPresent = new boolean[N + 1];
 		classSkill = new int[N + 1];
 		pq = new PriorityQueue<>();
-		presentCount = 0;
+		minPQ = new PriorityQueue<>((a, b) -> a.skill - b.skill);
+		maxPQ = new PriorityQueue<>((a, b) -> b.skill - a.skill);
 
+		presentCount = 0;
 		Arrays.fill(isNotPresent, true);
+
 		for (int i = 1; i <= N; i++) {
 			st = new StringTokenizer(br.readLine());
-
 			for (int j = 0; j < M; j++) {
 				pq.add(new Student(i, Integer.parseInt(st.nextToken())));
 			}
