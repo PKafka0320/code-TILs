@@ -17,9 +17,6 @@ public class Main {
 
 		@Override
 		public int compareTo(User o) {
-			if (this.start == o.start) {
-				return this.end - o.end;
-			}
 			return this.start - o.start;
 		}
 	}
