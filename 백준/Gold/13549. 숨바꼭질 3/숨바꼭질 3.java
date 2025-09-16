@@ -19,15 +19,21 @@ public class Main {
 			return this.time - o.time;
 		}
 	}
+
 	static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 	static StringTokenizer st;
-	static int N, K, minTime[];
+	static int answer, N, K, minTime[];
 	static int INF = 100_000, MAX_POSITION = 100_000;
 	static PriorityQueue<Position> pq;
 
 	public static void main(String[] args) throws IOException {
 		init();
-		solve();
+		if (N >= K) {
+			answer = N - K;
+		} else {
+			solve();
+		}
+		System.out.println(answer);
 	}
 
 	private static void solve() {
@@ -56,12 +62,12 @@ public class Main {
 			}
 
 			nextIndex = currentIndex + 1;
-			if (isValid(nextIndex)  && minTime[nextIndex] > currentTime + 1) {
+			if (isValid(nextIndex) && minTime[nextIndex] > currentTime + 1) {
 				minTime[nextIndex] = currentTime + 1;
 				pq.add(new Position(nextIndex, minTime[nextIndex]));
 			}
 		}
-		System.out.println(minTime[K]);
+		answer = minTime[K];
 	}
 
 	private static boolean isValid(int index) {
