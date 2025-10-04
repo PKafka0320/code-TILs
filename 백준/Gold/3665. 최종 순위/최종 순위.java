@@ -34,17 +34,10 @@ public class Main {
 		}
 
 		while (!queue.isEmpty()) {
-			if (queue.size() > 1) {
-				answer.append("?");
-				return;
-			}
-
 			int node = queue.poll();
-			// System.out.printf("current node: %d\n", node);
 			result.add(node);
 			for (Integer next : graph[node]) {
 				inDegree[next]--;
-				// System.out.printf("indegree[%d]: %d\n", next, inDegree[next]);
 				if (inDegree[next] == 0) {
 					queue.add(next);
 				}
